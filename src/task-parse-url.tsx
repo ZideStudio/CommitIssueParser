@@ -1,4 +1,4 @@
-import { Form, ActionPanel, Action, showToast } from "@raycast/api";
+import { Action, ActionPanel, Form, showToast } from '@raycast/api';
 
 type Values = {
   textfield: string;
@@ -12,7 +12,10 @@ type Values = {
 export default function Command() {
   function handleSubmit(values: Values) {
     console.log(values);
-    showToast({ title: "Submitted form", message: "See logs for submitted values" });
+    showToast({
+      title: 'Submitted form',
+      message: 'See logs for submitted values',
+    });
   }
 
   return (
