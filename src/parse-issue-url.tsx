@@ -1,46 +1,35 @@
-import { Action, ActionPanel, List } from "@raycast/api";
-import { useEffect } from "react";
-import useScope from "./hooks/scope";
-import useUrlParser from "./hooks/url_parser";
+import { Color, getPreferenceValues, List } from "@raycast/api";
+import CustomActionPannel from "./components/customActionPannel";
+import useCommitMessages from "./hooks/commitMessages";
+import useUrlParser from "./hooks/urlParser";
+import { Preferences } from "./models/preferences";
+import { TypeMode } from "./models/typeMode";
 
 export default function Command() {
-  const { issue, setEntry } = useUrlParser();
-  const { scopes, filterScope } = useScope();
+  const preferences = getPreferenceValues<Preferences>();
 
-  useEffect(() => {
-    filterScope(issue.scope);
-  }, [issue.scope]);
+  const { issue, setEntry } = useUrlParser();
+  const { commitMessages } = useCommitMessages({ preferences, issue });
 
   return (
     <List
-      searchBarPlaceholder="Paste the url of your issue | Add scope, description and body with ',' separator"
+      searchBarPlaceholder="Paste the url of your issue, then add description and body with ',' separator"
       searchText={issue.entry}
       onSearchTextChange={setEntry}
     >
-      {scopes.map((scope) => {
-        const commitMessage = `${scope}(${issue.id ?? issue.url ?? issue.entry}): ${issue.description ?? ""}`;
-        const bodyMessage = `Issue url: ${issue.url || ""}${issue.body ? `\n\n${issue.body}` : ""}`;
-
-        return (
-          <List.Item
-            key={scope}
-            title={commitMessage}
-            actions={
-              <ActionPanel>
-                <Action.Paste content={commitMessage} />
-
-                <ActionPanel.Section>
-                  <Action.Paste
-                    content={bodyMessage}
-                    title="Paste Description"
-                    shortcut={{ modifiers: ["shift"], key: "enter" }}
-                  />
-                </ActionPanel.Section>
-              </ActionPanel>
-            }
-          />
-        );
-      })}
+      {commitMessages.map((type) => (
+        <List.Item
+          id={type.label}
+          key={type.label}
+          title={type.commitMessage}
+          accessories={
+            preferences.typeMode === TypeMode.GITMOJI
+              ? [{ tag: { value: type.label, color: Color.SecondaryText } }]
+              : undefined
+          }
+          actions={<CustomActionPannel type={type} preferences={preferences} />}
+        />
+      ))}
     </List>
   );
 }

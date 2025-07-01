@@ -4,7 +4,7 @@ export const DEFAULT_ISSUE: Issue = {
   entry: "",
   url: undefined,
   id: undefined,
-  scope: undefined,
+  type: undefined,
   description: undefined,
   body: undefined,
 };
