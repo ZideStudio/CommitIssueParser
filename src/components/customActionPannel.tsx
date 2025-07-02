@@ -10,21 +10,23 @@ import CustomAction from "./customAction";
 
 type BodyActionsWrapperProps = {
   children: ReactElement | ReactElement[];
-  commitBody: string;
+  bodyContent: string;
+  autoCopyBodyContent?: string;
 };
 
-function BodyActionsWrapper({ children, commitBody }: BodyActionsWrapperProps) {
+function BodyActionsWrapper({ children, bodyContent, autoCopyBodyContent }: BodyActionsWrapperProps) {
   return (
     <>
       <CustomAction
         type={ActionType.PASTE}
-        content={commitBody}
+        content={bodyContent}
         title="Paste Body"
         shortcut={getShortcut(ShortcutType.PASTE_BODY)}
+        autoCopyBodyContent={autoCopyBodyContent}
       />
       <CustomAction
         type={ActionType.COPY}
-        content={commitBody}
+        content={bodyContent}
         title="Copy Body"
         shortcut={getShortcut(ShortcutType.COPY_BODY)}
       />
@@ -34,11 +36,11 @@ function BodyActionsWrapper({ children, commitBody }: BodyActionsWrapperProps) {
 }
 
 type CustomActionProps = {
-  type: CommitMessage;
+  commit: CommitMessage;
   preferences: Preferences;
 };
 
-export default function CustomActionPannel({ type, preferences }: CustomActionProps) {
+export default function CustomActionPannel({ commit, preferences }: CustomActionProps) {
   const mainActionType =
     preferences.onSelection === OnSelection.COPY
       ? ActionType.COPY
@@ -53,40 +55,49 @@ export default function CustomActionPannel({ type, preferences }: CustomActionPr
         ? "Paste in Active App"
         : "Paste and Copy to Clipboard";
 
+  const autoCopyBodyContent = preferences.autoCopyBody ? commit.body : undefined;
+
   return (
     <ActionPanel>
-      <CustomAction type={mainActionType} title={mainActionTitle} content={type.commitMessage} />
+      <CustomAction
+        type={mainActionType}
+        title={mainActionTitle}
+        content={commit.message}
+        autoCopyBodyContent={mainActionType === ActionType.PASTE ? autoCopyBodyContent : undefined}
+      />
 
       <ActionPanel.Section>
         {preferences.onSelection === OnSelection.COPY ? (
-          <BodyActionsWrapper commitBody={type.commitBody}>
+          <BodyActionsWrapper bodyContent={commit.body}>
             <CustomAction
               type={ActionType.PASTE}
-              content={type.commitMessage}
+              content={commit.message}
               title="Paste Message"
               shortcut={getShortcut(ShortcutType.PASTE_MESSAGE)}
+              autoCopyBodyContent={autoCopyBodyContent}
             />
           </BodyActionsWrapper>
         ) : preferences.onSelection === OnSelection.PASTE ? (
-          <BodyActionsWrapper commitBody={type.commitBody}>
+          <BodyActionsWrapper bodyContent={commit.body}>
             <CustomAction
               type={ActionType.COPY}
-              content={type.commitMessage}
+              content={commit.message}
               title="Copy Message"
               shortcut={getShortcut(ShortcutType.COPY_MESSAGE)}
             />
           </BodyActionsWrapper>
         ) : (
-          <BodyActionsWrapper commitBody={type.commitBody}>
+          <BodyActionsWrapper bodyContent={commit.body}>
             <CustomAction
               type={ActionType.PASTE}
-              content={type.commitMessage}
+              content={commit.message}
               title="Paste Message"
               shortcut={getShortcut(ShortcutType.PASTE_MESSAGE)}
+              autoCopyBodyContent={autoCopyBodyContent}
             />
             <CustomAction
               type={ActionType.COPY}
-              content={type.commitMessage}
+              content={commit.message}
               title="Copy Message"
               shortcut={getShortcut(ShortcutType.COPY_MESSAGE)}
             />

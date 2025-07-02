@@ -17,17 +17,17 @@ export default function Command() {
       searchText={issue.entry}
       onSearchTextChange={setEntry}
     >
-      {commitMessages.map((type) => (
+      {commitMessages.map((commit) => (
         <List.Item
-          id={type.label}
-          key={type.label}
-          title={type.commitMessage}
+          id={commit.label}
+          key={commit.label}
+          title={commit.message}
           accessories={
             preferences.typeMode === TypeMode.GITMOJI
-              ? [{ tag: { value: type.label, color: Color.SecondaryText } }]
+              ? [{ tag: { value: commit.label, color: Color.SecondaryText } }]
               : undefined
           }
-          actions={<CustomActionPannel type={type} preferences={preferences} />}
+          actions={<CustomActionPannel commit={commit} preferences={preferences} />}
         />
       ))}
     </List>

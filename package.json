@@ -54,6 +54,14 @@
           "value": "gitmoji"
         }
       ]
+    },
+    {
+      "name": "autoCopyBody",
+      "title": "Auto Copy Body",
+      "description": "Copy body automatically when paste on active app action selected",
+      "type": "checkbox",
+      "required": false,
+      "label": "Copy"
     }
   ],
   "dependencies": {

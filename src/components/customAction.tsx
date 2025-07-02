@@ -6,15 +6,24 @@ type CustomActionProps = {
   type: ActionType;
   title?: string;
   shortcut?: Keyboard.Shortcut;
+  autoCopyBodyContent?: string;
 };
 
-export default function CustomAction({ type, content, title, shortcut }: CustomActionProps) {
+export default function CustomAction({ type, content, autoCopyBodyContent, title, shortcut }: CustomActionProps) {
   const props = { content, title, shortcut };
 
-  if (type === ActionType.COPY) {
+  const autoCopyBody = () => {
+    if (!autoCopyBodyContent) return;
+
+    setTimeout(() => {
+      Clipboard.copy(autoCopyBodyContent);
+    }, 100);
+  };
+
+  if (type === ActionType.PASTE) {
+    return <RCAction.Paste onPaste={autoCopyBody} {...props} />;
+  } else if (type === ActionType.COPY) {
     return <RCAction.CopyToClipboard {...props} />;
-  } else if (type === ActionType.PASTE) {
-    return <RCAction.Paste {...props} />;
   }
 
   return <RCAction.Paste onPaste={Clipboard.copy} {...props} />;

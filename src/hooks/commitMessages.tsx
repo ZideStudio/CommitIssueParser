@@ -17,11 +17,11 @@ export default function useCommitMessages({ preferences, issue }: CommitMessageP
   return {
     commitMessages: COMMIT_TYPES.map((type) => ({
       ...type,
-      commitMessage:
+      message:
         preferences.typeMode === TypeMode.DEFAULT
           ? `${type.label}(${issue.id ?? issue.url ?? issue.entry}): ${issue.description ?? ""}`
           : `${type.emoji} ${issue.id ?? issue.url ?? issue.entry} ${issue.description ?? ""}`,
-      commitBody: `Issue ${issue.id ? "url" : "name"}: ${issue.url || ""}${issue.body ? `\n\n${issue.body}` : ""}`,
+      body: `Issue ${issue.id ? "url" : "name"}: ${issue.url || ""}${issue.body ? `\n\n${issue.body}` : ""}`,
     })),
   };
 }
