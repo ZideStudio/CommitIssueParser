@@ -14,14 +14,29 @@ type CommitMessageState = {
 };
 
 export default function useCommitMessages({ preferences, issue }: CommitMessageProps): CommitMessageState {
+  const formatMessage = (type: (typeof COMMIT_TYPES)[number]) => {
+    const scope = issue.id ?? issue.url ?? issue.entry;
+    const description = issue.description ?? "";
+    if (!(issue.id || issue.url)) {
+      return `${type.label}: ${description}`;
+    }
+    return preferences.typeMode === TypeMode.DEFAULT
+      ? `${type.label}(${scope}): ${description}`
+      : `${type.emoji} ${scope} ${description}`;
+  };
+
+  const formatBody = () => {
+    const issueType = issue.id ? "url" : "name";
+    const issueDetails = issue.url || "";
+    const bodyContent = issue.body ? `\n\n${issue.body}` : "";
+    return `Issue ${issueType}: ${issueDetails}${bodyContent}`;
+  };
+
   return {
     commitMessages: COMMIT_TYPES.map((type) => ({
       ...type,
-      message:
-        preferences.typeMode === TypeMode.DEFAULT
-          ? `${type.label}(${issue.id ?? issue.url ?? issue.entry}): ${issue.description ?? ""}`
-          : `${type.emoji} ${issue.id ?? issue.url ?? issue.entry} ${issue.description ?? ""}`,
-      body: `Issue ${issue.id ? "url" : "name"}: ${issue.url || ""}${issue.body ? `\n\n${issue.body}` : ""}`,
+      message: formatMessage(type),
+      body: formatBody(),
     })),
   };
 }
