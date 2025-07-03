@@ -1,4 +1,4 @@
 export enum TypeMode {
-  DEFAULT = "default",
+  TEXT = "text",
   GITMOJI = "gitmoji",
 }

@@ -38,6 +38,28 @@
       ]
     },
     {
+      "name": "contentFormat",
+      "title": "Content Format",
+      "description": "Applied format when you select a commit name",
+      "type": "dropdown",
+      "required": false,
+      "default": "text",
+      "data": [
+        {
+          "title": "Text",
+          "value": "text"
+        },
+        {
+          "title": "Lazygit",
+          "value": "lazygit"
+        },
+        {
+          "title": "Git Command",
+          "value": "git"
+        }
+      ]
+    },
+    {
       "name": "typeMode",
       "title": "Type Mode",
       "description": "Configure the mode of your commit types",
@@ -47,21 +69,13 @@
       "data": [
         {
           "title": "Text",
-          "value": "default"
+          "value": "text"
         },
         {
           "title": "Gitmoji",
           "value": "gitmoji"
         }
       ]
-    },
-    {
-      "name": "autoCopyBody",
-      "title": "Auto Copy Body",
-      "description": "Copy body automatically when paste on active app action selected",
-      "type": "checkbox",
-      "required": false,
-      "label": "Copy"
     }
   ],
   "dependencies": {
