@@ -42,7 +42,7 @@ export default function useUrlParser(): UrlParserState {
     let body: string | undefined;
 
     const spaceParts = firstPart.split(" ");
-    const possibleUrl = spaceParts[0];
+    const possibleUrl = spaceParts[0].split("?")[0];
     const possibleId = extractIdFromUrl(possibleUrl);
 
     if (possibleId && spaceParts.length > 1) {
@@ -51,7 +51,7 @@ export default function useUrlParser(): UrlParserState {
       description = spaceParts.slice(1).join(" ");
       body = secondPart;
     } else {
-      newIssue.id = extractIdFromUrl(url);
+      newIssue.id = extractIdFromUrl(url.split("?")[0]);
       description = secondPart;
       body = thirdPart;
     }
