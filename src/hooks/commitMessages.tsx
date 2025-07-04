@@ -37,11 +37,19 @@ export default function useCommitMessages({ preferences, issue }: CommitMessageP
     const message = formatMessage(type);
     const body = formatBody();
 
+    const contentFormat = preferences.contentFormat;
+    const contentAction =
+      contentFormat === ContentFormat.LAZYGIT
+        ? `${message}\n${body}`
+        : contentFormat === ContentFormat.GIT
+          ? `git commit -m "${message}" -m "${body}"`
+          : message;
+
     return {
       ...type,
-      message: message,
-      body: body,
-      contentAction: preferences.contentFormat === ContentFormat.LAZYGIT ? `${message}\n${body}` : message,
+      message,
+      body,
+      contentAction,
     };
   });
 
