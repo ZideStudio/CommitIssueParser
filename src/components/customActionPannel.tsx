@@ -10,10 +10,12 @@ import CustomAction from "./customAction";
 
 type BodyActionsWrapperProps = {
   children: ReactElement | ReactElement[];
-  bodyContent: string;
+  bodyContent?: string;
 };
 
 function BodyActionsWrapper({ children, bodyContent }: BodyActionsWrapperProps) {
+  if (!bodyContent) return <>{children}</>;
+
   return (
     <>
       <CustomAction
