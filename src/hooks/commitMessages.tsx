@@ -19,7 +19,7 @@ export default function useCommitMessages({ preferences, issue }: CommitMessageP
     const scope = issue.id ?? issue.url ?? issue.entry;
     const description = issue.description ?? "";
     if (!(issue.id || issue.url)) {
-      return `${type.label}: ${description}`;
+      return preferences.typeMode === TypeMode.TEXT ? `${type.label}: ${description}` : `${type.emoji} ${description}`;
     }
     return preferences.typeMode === TypeMode.TEXT
       ? `${type.label}(${scope}): ${description}`
