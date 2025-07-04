@@ -37,7 +37,6 @@ export default function useUrlParser(): UrlParserState {
     const newIssue: Issue = { ...issue, entry };
     const [firstPart, secondPart, thirdPart] = entry.split(",").map((p) => p.trim());
 
-    let url = firstPart;
     let description: string | undefined;
     let body: string | undefined;
 
@@ -45,18 +44,16 @@ export default function useUrlParser(): UrlParserState {
     const possibleUrl = spaceParts[0].split("?")[0];
     const possibleId = extractIdFromUrl(possibleUrl);
 
-    if (possibleId && spaceParts.length > 1) {
-      url = possibleUrl;
-      newIssue.id = possibleId;
+    if (spaceParts.length > 1) {
       description = spaceParts.slice(1).join(" ");
-      body = secondPart;
+      body = secondPart || thirdPart;
     } else {
-      newIssue.id = extractIdFromUrl(url.split("?")[0]);
       description = secondPart;
       body = thirdPart;
     }
 
-    newIssue.url = url;
+    newIssue.url = possibleUrl;
+    newIssue.id = possibleId || undefined;
     newIssue.description = description || undefined;
     newIssue.body = body || undefined;
 
