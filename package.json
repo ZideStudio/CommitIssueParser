@@ -5,6 +5,10 @@
   "description": "Easily parse issue URLs (from Jira or GitHub) to generate commit names and descriptions for use with Git",
   "icon": "extension-icon.png",
   "author": "julesjuul",
+  "categories": [
+    "Developer Tools",
+    "Productivity"
+  ],
   "license": "MIT",
   "commands": [
     {
