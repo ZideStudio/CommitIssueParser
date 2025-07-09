@@ -28,7 +28,7 @@ export default function useCommitMessages({ preferences, issue }: CommitMessageP
 
   const getBody = (): string | undefined => {
     const issueDetails = issue.url;
-    if (!issueDetails) return;
+    if (!issueDetails || (!issue.id && !issue.body)) return;
 
     const issueType = issue.id ? "url" : "scope";
     const bodyContent = issue.body ? `\n\n${issue.body}` : "";
