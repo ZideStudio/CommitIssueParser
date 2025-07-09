@@ -46,16 +46,16 @@ export default function useUrlParser(): UrlParserState {
 
     if (spaceParts.length > 1) {
       description = spaceParts.slice(1).join(" ");
-      body = secondPart || thirdPart;
+      body = secondPart ?? thirdPart;
     } else {
       description = secondPart;
       body = thirdPart;
     }
 
     newIssue.url = possibleUrl;
-    newIssue.id = possibleId || undefined;
-    newIssue.description = description || undefined;
-    newIssue.body = body || undefined;
+    newIssue.id = possibleId ?? undefined;
+    newIssue.description = description ?? undefined;
+    newIssue.body = body ?? undefined;
 
     setIssue(newIssue);
   };
