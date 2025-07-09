@@ -1,14 +1,16 @@
-import { Color, getPreferenceValues, List } from "@raycast/api";
+import { Cache, Color, getPreferenceValues, List } from "@raycast/api";
 import CustomActionPannel from "./components/customActionPannel";
 import useCommitMessages from "./hooks/commitMessages";
 import useUrlParser from "./hooks/urlParser";
 import { Preferences } from "./models/preferences";
 import { TypeMode } from "./models/typeMode";
 
+const cache = new Cache();
+
 export default function Command() {
   const preferences = getPreferenceValues<Preferences>();
 
-  const { issue, setEntry } = useUrlParser();
+  const { issue, setEntry } = useUrlParser({ cache });
   const { commitMessages } = useCommitMessages({ preferences, issue });
 
   return (

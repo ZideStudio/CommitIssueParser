@@ -1,16 +1,33 @@
+import { Cache } from "@raycast/api";
 import { useState } from "react";
 import { DEFAULT_ISSUE } from "../constant/defaultIssue";
 import type { Issue } from "../models/issue";
+
+type useUrlParserProps = {
+  cache: Cache;
+};
 
 type UrlParserState = {
   issue: Issue;
   setEntry: (entry: string) => void;
 };
 
-export default function useUrlParser(): UrlParserState {
-  const [issue, setIssue] = useState<Issue>(DEFAULT_ISSUE);
+export default function useUrlParser({ cache }: useUrlParserProps): UrlParserState {
+  const [issue, setIssue] = useState<Issue>(() => {
+    const cached = cache.get("issue");
+    if (!cached) return DEFAULT_ISSUE;
 
-  const resetStates = (): void => setIssue(DEFAULT_ISSUE);
+    try {
+      return JSON.parse(cached);
+    } catch {
+      return DEFAULT_ISSUE;
+    }
+  });
+
+  const resetStates = (): void => {
+    setIssue(DEFAULT_ISSUE);
+    cache.remove("issue");
+  };
 
   const extractIdFromUrl = (url: string): string | undefined => {
     if (/atlassian\.net\/browse\//.test(url)) {
@@ -58,6 +75,7 @@ export default function useUrlParser(): UrlParserState {
     newIssue.body = body ?? undefined;
 
     setIssue(newIssue);
+    cache.set("issue", JSON.stringify(newIssue));
   };
 
   return {
