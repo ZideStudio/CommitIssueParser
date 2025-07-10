@@ -39,7 +39,7 @@ type CustomActionProps = {
   preferences: Preferences;
 };
 
-export default function CustomActionPannel({ commit, preferences }: CustomActionProps) {
+export default function CustomActionPanel({ commit, preferences }: CustomActionProps) {
   const mainActionType =
     preferences.primaryAction === ActionType.COPY
       ? ActionType.COPY
