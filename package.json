@@ -69,7 +69,7 @@
       "description": "Configure the mode of your commit types",
       "type": "dropdown",
       "required": false,
-      "default": "default",
+      "default": "text",
       "data": [
         {
           "title": "Text",
