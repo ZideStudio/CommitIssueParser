@@ -17,9 +17,9 @@ type CommitMessageState = {
 
 export default function useCommitMessages({ preferences, issue }: CommitMessageProps): CommitMessageState {
   const getMessage = (type: CommitType): string => {
-    const scope = issue.id ?? issue.url ?? issue.entry;
+    const scope = issue.id ?? issue.url;
     const description = issue.description ?? "";
-    if (!(issue.id || issue.url)) {
+    if (!scope) {
       return preferences.typeMode === TypeMode.TEXT ? `${type.label}: ${description}` : `${type.emoji} ${description}`;
     }
     return preferences.typeMode === TypeMode.TEXT
