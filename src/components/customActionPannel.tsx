@@ -2,7 +2,6 @@ import { ActionPanel } from "@raycast/api";
 import { ReactElement } from "react";
 import { ActionType } from "../models/actionType";
 import { CommitMessage } from "../models/commitMessage";
-import { OnSelection } from "../models/onSelection";
 import { Preferences } from "../models/preferences";
 import { ShortcutType } from "../models/shortcutType";
 import getShortcut from "../services/shortcut";
@@ -42,16 +41,16 @@ type CustomActionProps = {
 
 export default function CustomActionPannel({ commit, preferences }: CustomActionProps) {
   const mainActionType =
-    preferences.onSelection === OnSelection.COPY
+    preferences.primaryAction === ActionType.COPY
       ? ActionType.COPY
-      : preferences.onSelection === OnSelection.PASTE
+      : preferences.primaryAction === ActionType.PASTE
         ? ActionType.PASTE
-        : ActionType.ALL;
+        : ActionType.COPY_AND_PASTE;
 
   const mainActionTitle =
-    preferences.onSelection === OnSelection.COPY
+    preferences.primaryAction === ActionType.COPY
       ? "Copy to Clipboard"
-      : preferences.onSelection === OnSelection.PASTE
+      : preferences.primaryAction === ActionType.PASTE
         ? "Paste in Active App"
         : "Paste and Copy to Clipboard";
 
@@ -62,7 +61,7 @@ export default function CustomActionPannel({ commit, preferences }: CustomAction
       <CustomAction type={mainActionType} title={mainActionTitle} content={commitContent} />
 
       <ActionPanel.Section>
-        {preferences.onSelection === OnSelection.COPY ? (
+        {preferences.primaryAction === ActionType.COPY ? (
           <BodyActionsWrapper bodyContent={commit.body}>
             <CustomAction
               type={ActionType.PASTE}
@@ -71,7 +70,7 @@ export default function CustomActionPannel({ commit, preferences }: CustomAction
               shortcut={getShortcut(ShortcutType.PASTE_MESSAGE)}
             />
           </BodyActionsWrapper>
-        ) : preferences.onSelection === OnSelection.PASTE ? (
+        ) : preferences.primaryAction === ActionType.PASTE ? (
           <BodyActionsWrapper bodyContent={commit.body}>
             <CustomAction
               type={ActionType.COPY}

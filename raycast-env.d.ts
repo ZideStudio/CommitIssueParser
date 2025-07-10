@@ -9,7 +9,7 @@
 
 type ExtensionPreferences = {
   /** Primary Action - Set the default behavior when you select a commit name */
-  "onSelection": "paste" | "copypaste" | "copy",
+  "primaryAction": "paste" | "copy-and-paste" | "copy",
   /** Content Format - Applied format when you select a commit name */
   "contentFormat": "text" | "lazygit" | "git",
   /** Type Mode - Configure the mode of your commit types */
