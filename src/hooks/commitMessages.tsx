@@ -1,5 +1,6 @@
 import { COMMIT_TYPES } from "../constant/commitType";
 import { CommitMessage } from "../models/commitMessage";
+import { CommitType } from "../models/commitType";
 import { ContentFormat } from "../models/contentFormat";
 import { Issue } from "../models/issue";
 import { Preferences } from "../models/preferences";
@@ -15,7 +16,7 @@ type CommitMessageState = {
 };
 
 export default function useCommitMessages({ preferences, issue }: CommitMessageProps): CommitMessageState {
-  const getMessage = (type: (typeof COMMIT_TYPES)[number]): string => {
+  const getMessage = (type: CommitType): string => {
     const scope = issue.id ?? issue.url ?? issue.entry;
     const description = issue.description ?? "";
     if (!(issue.id || issue.url)) {
