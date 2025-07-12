@@ -59,10 +59,11 @@ export default function useUrlParser({ cache }: useUrlParserProps): UrlParserSta
 
     const newIssue: Issue = { ...issue, entry };
 
-    const parts = entry.split(",").map((p) => p.trim());
-    const firstPart = parts[0];
-    const thirdPart = parts.length > 1 ? parts[parts.length - 1] : undefined;
-    const secondPart = parts.length > 2 ? parts.slice(1, -1).join(",") : parts.length === 2 ? parts[1] : undefined;
+    const parts = entry.split(",");
+    const firstPart = parts[0].trim();
+    const thirdPart = parts.length > 1 ? parts[parts.length - 1].trim() : undefined;
+    const secondPart =
+      parts.length > 2 ? parts.slice(1, -1).join(",").trim() : parts.length === 2 ? parts[1] : undefined;
 
     let description: string | undefined;
     let body: string | undefined;
@@ -72,10 +73,13 @@ export default function useUrlParser({ cache }: useUrlParserProps): UrlParserSta
     const possibleId = extractIdFromUrl(possibleUrl);
 
     if (spaceParts.length > 1) {
-      description = spaceParts.slice(1).join(" ");
+      description = spaceParts.slice(1).join(" ").trimStart();
       if (parts.length > 2) {
-        description += `,${parts.slice(1, parts.length - 1).join(",")}`;
-        body = parts[parts.length - 1];
+        description += `,${parts
+          .slice(1, parts.length - 1)
+          .join(",")
+          .trimEnd()}`;
+        body = parts[parts.length - 1].trim();
       } else {
         body = secondPart ?? thirdPart;
       }
