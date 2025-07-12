@@ -8,8 +8,6 @@ This Raycast plugin allows you to parse your issue urls (such as Jira, Github an
 - Enter the issue URL (Jira, GitHub or Gitlab)
 - Press `Enter` to paste in your active app the commit message you've selected
 
-_You can also press `Shift+Enter` to paste the commit body in your active app._
-
 While typing your url, you can specify optional parameters separated by `,` in the following order:
 
 - `url`: The issue URL (Jira, GitHub or Gitlab)
