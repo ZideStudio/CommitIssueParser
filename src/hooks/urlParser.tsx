@@ -54,6 +54,21 @@ export default function useUrlParser({ cache }: useUrlParserProps): UrlParserSta
     return undefined;
   };
 
+  const parseUrl = (urlEntry: string): string => {
+    const url = new URL(urlEntry);
+    const paramsToKeep = ["focusedCommentId"];
+    const filteredParams = new URLSearchParams();
+
+    paramsToKeep.forEach((param) => {
+      const value = url.searchParams.get(param);
+      if (value) {
+        filteredParams.set(param, value);
+      }
+    });
+
+    return url.origin + url.pathname + (filteredParams.toString() ? "?" + filteredParams.toString() : "");
+  };
+
   const updateIssueUrl = (entry: string): void => {
     if (!entry) return resetStates();
 
@@ -69,7 +84,7 @@ export default function useUrlParser({ cache }: useUrlParserProps): UrlParserSta
     let body: string | undefined;
 
     const spaceParts = firstPart.split(" ");
-    const possibleUrl = spaceParts[0].split("?")[0];
+    const possibleUrl = parseUrl(spaceParts[0]);
     const possibleId = extractIdFromUrl(possibleUrl);
 
     if (spaceParts.length > 1) {
