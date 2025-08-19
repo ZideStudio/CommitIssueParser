@@ -1,3 +1,4 @@
+import { DEFAULT_BODY_FORMAT } from "../constant/bodyFormat";
 import { DEFAULT_COMMIT_FORMAT } from "../constant/commitFormat";
 import { COMMIT_TYPES } from "../constant/commitType";
 import { CommitMessage } from "../models/commitMessage";
@@ -36,12 +37,14 @@ export default function useCommitMessages({ preferences, issue }: CommitMessageP
   };
 
   const getBody = (): string | undefined => {
-    const issueDetails = issue.url;
-    if (!issueDetails || (!issue.id && !issue.body)) return;
+    if (!issue.url && !issue.id && !issue.body) return;
 
-    const issueType = issue.id ? "url" : "scope";
-    const bodyContent = issue.body ? `\n\n${issue.body}` : "";
-    return `Issue ${issueType}: ${issueDetails}${bodyContent}`;
+    const bodyFormat = preferences.bodyFormat || DEFAULT_BODY_FORMAT;
+
+    return bodyFormat
+      .replaceAll("{scope}", issue.url || "unspecified")
+      .replaceAll("{body}", issue.body || "")
+      .replaceAll("\\n", "\n");
   };
 
   const commitMessages = COMMIT_TYPES.map((type): CommitMessage => {

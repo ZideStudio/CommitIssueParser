@@ -15,7 +15,9 @@ type ExtensionPreferences = {
   /** Type Mode - Configure the mode of your commit types */
   "typeMode": "text" | "gitmoji",
   /** Commit Format - Customizes the format of the commit. The available parameters are {type}, {scope}, and {message}. Use \ to remove the following character when no scope is present. Leave blank to revert to the default format. */
-  "commitFormat": string
+  "commitFormat": string,
+  /** Body Format - Customizes the format of the body. The available parameters are {scope}, {body}. Leave blank to revert to the default format. */
+  "bodyFormat": string
 }
 
 /** Preferences accessible in all the extension's commands */
