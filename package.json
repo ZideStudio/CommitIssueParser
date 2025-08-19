@@ -80,6 +80,15 @@
           "value": "gitmoji"
         }
       ]
+    },
+    {
+      "name": "commitFormat",
+      "title": "Commit Format",
+      "description": "Customizes the format of the commit. The available parameters are {type}, {scope}, and {message}. Use \\ to remove the following character when no scope is present. Leave blank to revert to the default format.",
+      "type": "textfield",
+      "required": false,
+      "placeholder": "{type}\\({scope}\\): {message}",
+      "default": "{type}\\({scope}\\): {message}"
     }
   ],
   "dependencies": {

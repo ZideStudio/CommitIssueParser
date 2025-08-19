@@ -13,7 +13,9 @@ type ExtensionPreferences = {
   /** Content Format - Applied format when you select a commit name */
   "contentFormat": "text" | "lazygit" | "git",
   /** Type Mode - Configure the mode of your commit types */
-  "typeMode": "text" | "gitmoji"
+  "typeMode": "text" | "gitmoji",
+  /** Commit Format - Customizes the format of the commit. The available parameters are {type}, {scope}, and {message}. Use \ to remove the following character when no scope is present. Leave blank to revert to the default format. */
+  "commitFormat": string
 }
 
 /** Preferences accessible in all the extension's commands */

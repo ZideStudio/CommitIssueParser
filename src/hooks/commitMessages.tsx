@@ -1,3 +1,4 @@
+import { DEFAULT_COMMIT_FORMAT } from "../constant/commitFormat";
 import { COMMIT_TYPES } from "../constant/commitType";
 import { CommitMessage } from "../models/commitMessage";
 import { CommitType } from "../models/commitType";
@@ -13,15 +14,25 @@ type CommitMessageState = {
 };
 
 export default function useCommitMessages({ preferences, issue }: CommitMessageProps): CommitMessageState {
-  const getMessage = (type: CommitType): string => {
-    const scope = issue.id ?? issue.url;
+  const getMessage = (commitType: CommitType): string => {
+    const type = preferences.typeMode === "text" ? commitType.label : commitType.emoji;
+    const scope = issue.id ?? issue.url ?? "";
     const description = issue.description ?? "";
+
+    const commitFormat = preferences.commitFormat || DEFAULT_COMMIT_FORMAT;
+
+    let message = commitFormat
+      .replaceAll("{type}", type)
+      .replaceAll("{scope}", scope)
+      .replaceAll("{message}", description);
+
     if (!scope) {
-      return preferences.typeMode === "text" ? `${type.label}: ${description}` : `${type.emoji} ${description}`;
+      message = message.replace(/\\./g, "");
+    } else {
+      message = message.replaceAll("\\", "");
     }
-    return preferences.typeMode === "text"
-      ? `${type.label}(${scope}): ${description}`
-      : `${type.emoji} ${scope} ${description}`;
+
+    return message;
   };
 
   const getBody = (): string | undefined => {
