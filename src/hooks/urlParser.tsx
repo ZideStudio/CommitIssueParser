@@ -130,7 +130,9 @@ export default function useUrlParser({ cache }: useUrlParserProps): UrlParserSta
       }
     } else {
       description = secondPart;
-      body = thirdPart;
+      if (parts.length > 2) {
+        body = thirdPart;
+      }
     }
 
     newIssue.url = possibleUrl;
